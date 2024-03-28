@@ -57,7 +57,7 @@
     "vitest": "1.2.2"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": "^18.18.0 || ^20.8.0" 
   },
   "packageManager": "pnpm@8.9.2",
   "funding": [
