@@ -224,7 +224,7 @@ export async function signIn<
 ): Promise<
   P extends RedirectableProviderType ? SignInResponse | undefined : undefined
 > {
-  const { callbackUrl = window.location.href, redirect = true } = options ?? {}
+  const { callbackUrl = window.location.href, redirect = true, locale = "en" } = options ?? {}
 
   const baseUrl = apiBaseUrl(__NEXTAUTH)
   const providers = await getProviders()
@@ -235,9 +235,15 @@ export async function signIn<
   }
 
   if (!provider || !(provider in providers)) {
-    window.location.href = `${baseUrl}/signin?${new URLSearchParams({
-      callbackUrl,
-    })}`
+    const params = new URLSearchParams({ callbackUrl });
+    if (typeof locale === 'string') {
+      params.append('locale', locale);
+    } else {
+      // Handle the case where locale is not a string
+      // For example, you can set a default value
+      params.append('locale', 'en');
+    }
+    window.location.href = `${baseUrl}/signin?${params.toString()}`;
     return
   }
 
